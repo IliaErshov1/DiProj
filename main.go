@@ -28,6 +28,24 @@ func home_page(w http.ResponseWriter, r *http.Request){
     {Name: "Cggg", Age: 8},
 }
 
+r.ParseForm()
+    // они все тут
+//  params := r.Form
+params := r.FormValue("foo")
+switch params {
+    case "download":
+ fmt.Println(params)
+
+    case "remove":
+  fmt.Println(params)
+
+      case "select":
+   fmt.Println(params)
+
+ default:
+     fmt.Println(params)
+  }
+
 // bob := []User{
 //       {Name: "Bradbury Landing", Age: 4},
 //       {Name: "Bradbury Landing2", Age: 5},
