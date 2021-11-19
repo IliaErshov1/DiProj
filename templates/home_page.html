@@ -13,7 +13,7 @@
       <button name="foo" value="select">Select</button>
   </form>
 
-  
+
 </head>
 <body>
   <button id="gt">get time</button>
@@ -23,8 +23,8 @@
   {{ range $key, $value := . }}
   <table border="1" width="100%" cellpadding="5">
                  <tr>
-                <td>{{$value.Age}}</td>
-                <td>{{$value.Name}}</td>
+                <td>{{$value.Kind}}</td>
+                <td>{{$value.CollectionPrice}}</td>
               </tr>
             </table>
               {{end}}
