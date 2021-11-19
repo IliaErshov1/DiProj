@@ -6,7 +6,9 @@ import ("fmt"
         "encoding/json"
         "io/ioutil"
         "log"
-        "time")
+        "time"
+        "database/sql"
+      _ "github.com/go-sql-driver/mysql")
 
 type Music struct{
   Kind string `json:"Kind"`
@@ -144,4 +146,64 @@ func workJSON() {
 		fmt.Println(astros.Results[i].ReleaseDate)
 		fmt.Println("______________")
 			}
+}
+
+func WorkSQL(whattodo string){
+	db, err :=sql.Open("mysql", "root:root@tcp(127.0.0.1:3306)/itunes")
+	if err != nil{
+	panic(err)
+	}
+
+	switch whattodo {
+
+	    case "Insert":
+	        fmt.Println("Insert")
+					insert, err :=db.Query("INSERT INTO `users` (`name`, `age`) Values('Alex', 25)")
+						if err != nil{
+						panic(err)
+						}
+						defer insert.Close()
+
+	    case "Delete":
+	        fmt.Println("Delete")
+					delete, err :=db.Query("DELETE FROM `users`")
+						if err != nil{
+						panic(err)
+						}
+						defer delete.Close()
+
+	    case "Select":
+	        fmt.Println("Select")
+					res,  err :=db.Query("Select `name`, `age` From `users`")
+						if err != nil{
+						panic(err)
+						}
+						for res.Next() {
+						  var muz Music
+						  err = res.Scan(&muz.Kind, &muz.CollectionName)
+						  if err != nil{
+						  panic(err)
+						  }
+						//  fmt.Println(fmt.Sprintf("vivid", user.name, user.age))
+						}
+
+	    case "Schema":
+	        fmt.Println("Schema")
+					Schema, err :=db.Query("CREATE SCHEMA `test1` ;")
+					if err != nil{
+					panic(err)
+					}
+				defer Schema.Close()
+
+				  	Schema2, err :=db.Query("CREATE TABLE `test1`.`new_table` (`id` INT NOT NULL AUTO_INCREMENT,`name` VARCHAR(45) NULL,  PRIMARY KEY (`id`))")
+						if err != nil{
+						panic(err)
+						}
+						defer Schema2.Close()
+
+	    default:
+	        fmt.Println("default")
+	    }
+			defer db.Close()
+
 }
