@@ -255,19 +255,19 @@ func WorkSQL(whattodo string, queryin string) {
              // tmpl, _ := template.ParseFiles("templates/home_page.html")
             //  tmpl.Execute(w, ms)
 						}
-            for i := 0; i < 10; i++{
-          fmt.Println(i)
-          fmt.Println(Bks[i].Kind)
-        //	fmt.Println(bks[i].CollectionName)
-        //	fmt.Println(bks[i].TrackName)
-          fmt.Println(Bks[i].CollectionPrice)
+        //     for i := 0; i < 10; i++{
+        //   fmt.Println(i)
+        //   fmt.Println(Bks[i].Kind)
+        // //	fmt.Println(bks[i].CollectionName)
+        // //	fmt.Println(bks[i].TrackName)
+        //   fmt.Println(Bks[i].CollectionPrice)
         //	fmt.Println(bks[i].TrackPrice)
         //	fmt.Println(bks[i].PrimaryGenreName)
         //	fmt.Println(bks[i].TrackCount)
         //	fmt.Println(bks[i].TrackNumber)
         //	fmt.Println(bks[i].ReleaseDate)
         //	fmt.Println("______________"+"','"+ bks[i].Kind +"','")
-        }
+    //    }
 
 
 
