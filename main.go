@@ -7,6 +7,8 @@ import ("fmt"
         "io/ioutil"
         "log"
         "time"
+        "strconv"
+        "strings"
         "database/sql"
       _ "github.com/go-sql-driver/mysql")
 
@@ -38,14 +40,34 @@ type Results struct {
 // func(u *User) setNewName(newName string){
 //   u.Name = newName
 // }
+var muzSh Music
+var Bks = make([]*Music, 0)
+var BksClean = make([]*Music, 0)
 
 func home_page(w http.ResponseWriter, r *http.Request){
   //bob := User{"Bob", 25}
-  musics := []Music{
-    {Kind: "Columbia Memorial Station", CollectionPrice: 5,},
-    {Kind: "Challenger Memorial Station", CollectionPrice: 7},
-    {Kind: "Cggg", CollectionPrice: 8},
-}
+// musics := Music
+//    musics := []Music{
+//     {Kind: "Columbia Memorial Station", CollectionPrice: 5,},
+//     {Kind: "Challenger Memorial Station", CollectionPrice: 7},
+//     {Kind: "Cggg", CollectionPrice: 8},
+// }
+
+//musics := Music{Kind: "Columbia Memorial Station", CollectionPrice: 5,}
+
+
+//musics := Music{}
+// for i := 0; i < 10; i++{
+//   musics{Kind: "Test Item 1", CollectionPrice: 5}
+// }
+
+// as := Results{}
+// for i := 0; i < 10; i++{
+// as.Results[i].Kind="oo"
+// as.Results[i].CollectionPrice=0.2
+//  }
+// fmt.Println(as.Results[0].Kind)
+
 
 r.ParseForm()
 params := r.FormValue("foo")
@@ -56,9 +78,17 @@ switch params {
 
     case "remove":
   fmt.Println(params)
+ WorkSQL("Delete",  "s")
 
       case "select":
    fmt.Println(params)
+WorkSQL("Select", "tmpl")
+  //tmpl.Execute(w, muz)
+
+  case "clean":
+fmt.Println(params)
+     Bks=BksClean
+
  default:
      fmt.Println(params)
   }
@@ -73,7 +103,7 @@ switch params {
 //  fmt.Fprintf(w, "Test web" + bob.getAllInfo())
 //fmt.Fprintf(w, <b>Main Trxt</b>")
 tmpl, _ := template.ParseFiles("templates/home_page.html")
-tmpl.Execute(w, musics)
+tmpl.Execute(w, Bks)
 }
 
 func hadleRequest(){
@@ -122,9 +152,9 @@ func workJSON() {
         log.Fatal(err)
     }
 
-    astros := Results{}
+    as := Results{}
 
-    jsonErr := json.Unmarshal(body, &astros)
+    jsonErr := json.Unmarshal(body, &as)
 	 //jsonErr := json.MarshalIndent(&astros, "", "    ")
 	// fmt.Println(&astros)
 
@@ -133,22 +163,41 @@ func workJSON() {
     }
 
 
-			for i := 0; i < astros.ResultCount; i++{
+			for i := 0; i < as.ResultCount; i++{
 	  fmt.Println(i)
-		fmt.Println(astros.Results[i].Kind)
-		fmt.Println(astros.Results[i].CollectionName)
-		fmt.Println(astros.Results[i].TrackName)
-		fmt.Println(astros.Results[i].CollectionPrice)
-		fmt.Println(astros.Results[i].TrackPrice)
-		fmt.Println(astros.Results[i].PrimaryGenreName)
-		fmt.Println(astros.Results[i].TrackCount)
-		fmt.Println(astros.Results[i].TrackNumber)
-		fmt.Println(astros.Results[i].ReleaseDate)
-		fmt.Println("______________")
-			}
+		fmt.Println(as.Results[i].Kind)
+		fmt.Println(as.Results[i].CollectionName)
+		fmt.Println(as.Results[i].TrackName)
+		fmt.Println(as.Results[i].CollectionPrice)
+		fmt.Println(as.Results[i].TrackPrice)
+		fmt.Println(as.Results[i].PrimaryGenreName)
+		fmt.Println(as.Results[i].TrackCount)
+		fmt.Println(as.Results[i].TrackNumber)
+		fmt.Println(as.Results[i].ReleaseDate)
+		fmt.Println("______________"+"','"+ as.Results[i].Kind +"','")
+// pp :=as.Results[i].CollectionPrice
+// ppp :=as.Results[i].TrackPrice
+// ppCollectionPrice := fmt.Sprintf("%.6f",as.Results[i].CollectionPrice)
+// ppTrackPrice := fmt.Sprintf("%.6f",ppp)
+//replacer :=strings.NewReplacer("T", " ", "Z", "")
+//replacer := strings.ReplaceAll(as.Results[i].ReleaseDate, "T", " ")
+// res1 := strings.Replace(str1, "e", "E", 3)
+//outData := replacer.Replace(as.Results[i].ReleaseDate)
+//strings.NewReplacer("T", " ", "Z", "").Replace(as.Results[i].ReleaseDate)
+// str1 := as.Results[i].ReleaseDate
+// replacer := strings.NewReplacer("T", " ", "Z", "")
+// 	out := replacer.Replace(str1)
+//аа := ("INSERT INTO `music` (`Kind`) Values('"+ Don't Let Me Down +"')")
+//INSERT INTO `music` (`Kind`, `CollectionName`, `TrackName`, `CollectionPrice`, `TrackPrice`, `PrimaryGenreName`, `TrackCount`, `TrackNumber`, `ReleaseDate`) Values('song', 'The Beatles (The White Album)', 'Rocky Raccoon', '12.99', '1.29', 'Rock', '17', '13', '1968-11-22 12:00:00')
+//INSERT INTO `music` (`Kind`, `CollectionName`, `TrackName`, `CollectionPrice`, `TrackPrice`, `PrimaryGenreName`, `TrackCount`, `TrackNumber`, `ReleaseDate`) Values('song', 'The Beatles 1967-1970 (The Blue Album)', 'Don't Let Me Down', '12.99', '1.29', 'Rock', '14', '5', '1969-04-11 12:00:00')
+
+    s := ("INSERT INTO `music` (`Kind`, `CollectionName`, `TrackName`, `CollectionPrice`, `TrackPrice`, `PrimaryGenreName`, `TrackCount`, `TrackNumber`, `ReleaseDate`) Values('"+ as.Results[i].Kind +"', '"+ as.Results[i].CollectionName  +"', '"+ strings.Replace(as.Results[i].TrackName, "'", string([]rune{'\u005c', '\u0027'}) , 1) +"', '"+  fmt.Sprintf("%.2f", as.Results[i].CollectionPrice)  +"', '"+  fmt.Sprintf("%.2f", as.Results[i].TrackPrice)  +"', '"+  as.Results[i].PrimaryGenreName  +"', '"+  strconv.Itoa(as.Results[i].TrackCount)  +"', '"+  strconv.Itoa(as.Results[i].TrackNumber)  +"', '"+  strings.NewReplacer("T", " ", "Z", "").Replace(as.Results[i].ReleaseDate) +"')")
+fmt.Println(s)
+  WorkSQL("Insert",  s)
+      }
 }
 
-func WorkSQL(whattodo string){
+func WorkSQL(whattodo string, queryin string) {
 	db, err :=sql.Open("mysql", "root:root@tcp(127.0.0.1:3306)/itunes")
 	if err != nil{
 	panic(err)
@@ -158,7 +207,7 @@ func WorkSQL(whattodo string){
 
 	    case "Insert":
 	        fmt.Println("Insert")
-					insert, err :=db.Query("INSERT INTO `users` (`name`, `age`) Values('Alex', 25)")
+					insert, err :=db.Query(queryin)
 						if err != nil{
 						panic(err)
 						}
@@ -166,7 +215,7 @@ func WorkSQL(whattodo string){
 
 	    case "Delete":
 	        fmt.Println("Delete")
-					delete, err :=db.Query("DELETE FROM `users`")
+					delete, err :=db.Query("DELETE FROM `music`")
 						if err != nil{
 						panic(err)
 						}
@@ -174,18 +223,53 @@ func WorkSQL(whattodo string){
 
 	    case "Select":
 	        fmt.Println("Select")
-					res,  err :=db.Query("Select `name`, `age` From `users`")
+					res,  err :=db.Query("Select `Kind`, `CollectionPrice` From `music`")
 						if err != nil{
 						panic(err)
 						}
+
+          //  bks := make([]*Music, 0)
 						for res.Next() {
-						  var muz Music
-						  err = res.Scan(&muz.Kind, &muz.CollectionName)
+						 // var muz Music
+              //musics := []Music{
+              bk := new(Music)
+						  err = res.Scan(&bk.Kind, &bk.CollectionPrice)
+              Bks = append(Bks, bk)
 						  if err != nil{
 						  panic(err)
 						  }
-						//  fmt.Println(fmt.Sprintf("vivid", user.name, user.age))
+
+
+              	// for rows.Next() {
+              	// 	bk := new(Table_view)
+              	// 	rows.Scan(&bk.id, &bk.fam, &bk.name)
+              	// 	bks = append(bks, bk)
+                //as := Results{}
+
+
+             // muzZn{
+             //       {Kind: muzSh.Kind, CollectionPrice: muzSh.CollectionPrice},
+             //     }
+						 // fmt.Println(fmt.Sprintf("vivid", muzSh.Kind, muzSh.CollectionPrice))
+             // fmt.Println(muzSh)
+             // tmpl, _ := template.ParseFiles("templates/home_page.html")
+            //  tmpl.Execute(w, ms)
 						}
+            for i := 0; i < 10; i++{
+          fmt.Println(i)
+          fmt.Println(Bks[i].Kind)
+        //	fmt.Println(bks[i].CollectionName)
+        //	fmt.Println(bks[i].TrackName)
+          fmt.Println(Bks[i].CollectionPrice)
+        //	fmt.Println(bks[i].TrackPrice)
+        //	fmt.Println(bks[i].PrimaryGenreName)
+        //	fmt.Println(bks[i].TrackCount)
+        //	fmt.Println(bks[i].TrackNumber)
+        //	fmt.Println(bks[i].ReleaseDate)
+        //	fmt.Println("______________"+"','"+ bks[i].Kind +"','")
+        }
+
+
 
 	    case "Schema":
 	        fmt.Println("Schema")
