@@ -10,6 +10,8 @@ import ("fmt"
         "strconv"
         "strings"
         "database/sql"
+        "os"
+        "bufio"
       _ "github.com/go-sql-driver/mysql")
 
 type Music struct{
@@ -43,6 +45,12 @@ type Results struct {
 var muzSh Music
 var Bks = make([]*Music, 0)
 var BksClean = make([]*Music, 0)
+var Pbaseserver="127.0.0.1"
+var Pportbase="3306"
+var Pbase="itunes"
+var Plogin="root"
+var Ppass="root"
+var Pportweb="8080"
 
 func home_page(w http.ResponseWriter, r *http.Request){
   //bob := User{"Bob", 25}
@@ -114,10 +122,11 @@ http.HandleFunc("/", home_page)
 
 
 
-http.ListenAndServe(":8080", nil)
+http.ListenAndServe(":"+Pportweb, nil)
 }
 
 func main(){
+  FileRead()
   //var bob User
   //bob := User{name: "Bob", age:25, money: -50, avg_grades: 4.3, happiness: 0.8}
 
@@ -191,14 +200,16 @@ func workJSON() {
 //INSERT INTO `music` (`Kind`, `CollectionName`, `TrackName`, `CollectionPrice`, `TrackPrice`, `PrimaryGenreName`, `TrackCount`, `TrackNumber`, `ReleaseDate`) Values('song', 'The Beatles (The White Album)', 'Rocky Raccoon', '12.99', '1.29', 'Rock', '17', '13', '1968-11-22 12:00:00')
 //INSERT INTO `music` (`Kind`, `CollectionName`, `TrackName`, `CollectionPrice`, `TrackPrice`, `PrimaryGenreName`, `TrackCount`, `TrackNumber`, `ReleaseDate`) Values('song', 'The Beatles 1967-1970 (The Blue Album)', 'Don't Let Me Down', '12.99', '1.29', 'Rock', '14', '5', '1969-04-11 12:00:00')
 
-    s := ("INSERT INTO `music` (`Kind`, `CollectionName`, `TrackName`, `CollectionPrice`, `TrackPrice`, `PrimaryGenreName`, `TrackCount`, `TrackNumber`, `ReleaseDate`) Values('"+ as.Results[i].Kind +"', '"+ as.Results[i].CollectionName  +"', '"+ strings.Replace(as.Results[i].TrackName, "'", string([]rune{'\u005c', '\u0027'}) , 1) +"', '"+  fmt.Sprintf("%.2f", as.Results[i].CollectionPrice)  +"', '"+  fmt.Sprintf("%.2f", as.Results[i].TrackPrice)  +"', '"+  as.Results[i].PrimaryGenreName  +"', '"+  strconv.Itoa(as.Results[i].TrackCount)  +"', '"+  strconv.Itoa(as.Results[i].TrackNumber)  +"', '"+  strings.NewReplacer("T", " ", "Z", "").Replace(as.Results[i].ReleaseDate) +"')")
+    s := ("REPLACE INTO `music` (`Kind`, `CollectionName`, `TrackName`, `CollectionPrice`, `TrackPrice`, `PrimaryGenreName`, `TrackCount`, `TrackNumber`, `ReleaseDate`) Values('"+ as.Results[i].Kind +"', '"+ as.Results[i].CollectionName  +"', '"+ strings.Replace(as.Results[i].TrackName, "'", string([]rune{'\u005c', '\u0027'}) , 1) +"', '"+  fmt.Sprintf("%.2f", as.Results[i].CollectionPrice)  +"', '"+  fmt.Sprintf("%.2f", as.Results[i].TrackPrice)  +"', '"+  as.Results[i].PrimaryGenreName  +"', '"+  strconv.Itoa(as.Results[i].TrackCount)  +"', '"+  strconv.Itoa(as.Results[i].TrackNumber)  +"', '"+  strings.NewReplacer("T", " ", "Z", "").Replace(as.Results[i].ReleaseDate) +"')")
 fmt.Println(s)
   WorkSQL("Insert",  s)
       }
 }
 
 func WorkSQL(whattodo string, queryin string) {
-	db, err :=sql.Open("mysql", "root:root@tcp(127.0.0.1:3306)/itunes")
+  pconnect:= Plogin+":"+Ppass+"@tcp("+Pbaseserver+":"+Pportbase+")/"+Pbase
+  fmt.Println(pconnect)
+	db, err :=sql.Open("mysql", pconnect)
 	if err != nil{
 	panic(err)
 	}
@@ -223,7 +234,7 @@ func WorkSQL(whattodo string, queryin string) {
 
 	    case "Select":
 	        fmt.Println("Select")
-					res,  err :=db.Query("Select `Kind`, `CollectionPrice` From `music`")
+					res,  err :=db.Query("Select `Kind`, `CollectionPrice` From `music` ORDER BY `ReleaseDate` ASC")
 						if err != nil{
 						panic(err)
 						}
@@ -290,4 +301,45 @@ func WorkSQL(whattodo string, queryin string) {
 	    }
 			defer db.Close()
 
+}
+
+func FileRead(){
+  file, err := os.Open("settings.txt")
+  if err != nil {
+      log.Fatal(err)
+  }
+  defer file.Close()
+
+  scanner := bufio.NewScanner(file)
+  for scanner.Scan() {
+      fmt.Println(scanner.Text())
+      words := strings.Split(scanner.Text(), ":")
+      // fmt.Println(words[0])
+      // fmt.Println(words[1])
+      settings :=words[0]
+      switch settings {
+
+    	    case "connect":
+            Pbaseserver= words[1]
+
+          case "baset":
+            Pportbase= words[1]
+
+          case "portbase":
+              Pbase= words[1]
+
+          case "login":
+              Plogin = words[1]
+
+          case "pass":
+              Ppass= words[1]
+
+          case "portweb":
+              Pportweb= words[1]
+
+  }
+}
+  if err := scanner.Err(); err != nil {
+      log.Fatal(err)
+  }
 }
