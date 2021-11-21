@@ -6,8 +6,25 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Главная страница</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-uWxY/CJNBR+1zjPWmfnSnVxwRheevXITnMqoEIeG1LJrdI0GlVs/9cVSyPYXdcSF" crossorigin="anonymous">
+  <style type="text/css">
+    TABLE {
+     width: 600px; /* Ширина таблицы */
+     border-collapse: collapse; /* Убираем двойные линии между ячейками */
+    }
+    TD, TH {
+    word-wrap:break-word;
+     width:300px;
+     padding: 3px; /* Поля вокруг содержимого таблицы */
+     border: 1px solid black; /* Параметры рамки */
+    }
+    TH {
+     background: #b0e0e6; /* Цвет фона */
+    }
+   </style>
 
-  <form action="" method="POST">
+
+<br></br><br></br>
+  <form align="center" action="" method="POST">
   <button name="foo" value="download">Download</button>
     <button name="foo" value="remove">Remove</button>
       <button name="foo" value="select">Select</button>
@@ -17,15 +34,22 @@
 
 </head>
 <body>
-  <button id="gt">get time</button>
-  <h1>Главная страница</h1>
+  <br></br>
+  <!-- <button id="gt">get time</button>
+  <h1>Главная страница</h1> -->
 
+  <table align="center" border="1"  cellpadding="5">
+    <tr border="1">
+      <td border="1">Collection Name</td>
+      <td border="1">Release Date</td>
+      </tr>
+    </table>
 
   {{ range $key, $value := . }}
-  <table border="1" width="50%" cellpadding="5">
-                 <tr>
-                <td>{{$value.Kind}}</td>
-                <td>{{$value.CollectionPrice}}</td>
+  <table align="center" border="1"  cellpadding="5">
+                 <tr border="1">
+                <td border="1">{{$value.CollectionName}}</td>
+                <td border="1">{{$value.ReleaseDate}}</td>
               </tr>
             </table>
               {{end}}

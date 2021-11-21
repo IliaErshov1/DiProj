@@ -127,6 +127,7 @@ http.ListenAndServe(":"+Pportweb, nil)
 
 func main(){
   FileRead()
+  WorkSQL("Schema", "")
   //var bob User
   //bob := User{name: "Bob", age:25, money: -50, avg_grades: 4.3, happiness: 0.8}
 
@@ -234,7 +235,7 @@ func WorkSQL(whattodo string, queryin string) {
 
 	    case "Select":
 	        fmt.Println("Select")
-					res,  err :=db.Query("Select `Kind`, `CollectionPrice` From `music` ORDER BY `ReleaseDate` ASC")
+					res,  err :=db.Query("Select `CollectionName`, `ReleaseDate` From `music` ORDER BY `ReleaseDate` DESC")
 						if err != nil{
 						panic(err)
 						}
@@ -244,7 +245,7 @@ func WorkSQL(whattodo string, queryin string) {
 						 // var muz Music
               //musics := []Music{
               bk := new(Music)
-						  err = res.Scan(&bk.Kind, &bk.CollectionPrice)
+						  err = res.Scan(&bk.CollectionName, &bk.ReleaseDate)
               Bks = append(Bks, bk)
 						  if err != nil{
 						  panic(err)
@@ -283,16 +284,26 @@ func WorkSQL(whattodo string, queryin string) {
 
 
 	    case "Schema":
+        pconnectsh:= Plogin+":"+Ppass+"@tcp("+Pbaseserver+":"+Pportbase+")/"
+        fmt.Println(pconnectsh)
+      	db, err :=sql.Open("mysql", pconnectsh)
+      	if err != nil{
+      	panic(err)
+      }
 	        fmt.Println("Schema")
-					Schema, err :=db.Query("CREATE SCHEMA `test1` ;")
+					Schema, err :=db.Query("CREATE SCHEMA `itunes`;")
 					if err != nil{
-					panic(err)
+            fmt.Println(err)
+            return
+					//panic(err)
 					}
 				defer Schema.Close()
 
-				  	Schema2, err :=db.Query("CREATE TABLE `test1`.`new_table` (`id` INT NOT NULL AUTO_INCREMENT,`name` VARCHAR(45) NULL,  PRIMARY KEY (`id`))")
+				  	Schema2, err :=db.Query("CREATE TABLE `itunes`.`music` (`id` INT NOT NULL AUTO_INCREMENT, `Kind` VARCHAR(45) NULL, `CollectionName` VARCHAR(300) NULL, `TrackName` VARCHAR(300) NULL, `CollectionPrice` DOUBLE NULL, `TrackPrice` DOUBLE NULL, `PrimaryGenreName` VARCHAR(300) NULL, `TrackCount` INT NULL, `TrackNumber` INT NULL, `ReleaseDate` DATETIME NULL, PRIMARY KEY (`id`));")
 						if err != nil{
-						panic(err)
+            fmt.Println(err)
+            return
+            //panic(err)
 						}
 						defer Schema2.Close()
 
@@ -322,10 +333,10 @@ func FileRead(){
     	    case "connect":
             Pbaseserver= words[1]
 
-          case "baset":
+          case "portbase":
             Pportbase= words[1]
 
-          case "portbase":
+          case "base":
               Pbase= words[1]
 
           case "login":
