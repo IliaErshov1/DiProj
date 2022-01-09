@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: app
-        image: ershovcontainerregistry01.azurecr.io/RDiProj:latest
+        image: ershovcontainerregistry01.azurecr.io/rdiproj:latest
         ports:
         - containerPort: 8080
         resources:
