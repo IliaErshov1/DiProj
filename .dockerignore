@@ -4,3 +4,5 @@
 README.md
 .gitattributes
 Dockerfile
+deployk8s.yml
+appication.yml

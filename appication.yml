@@ -1,0 +1,38 @@
+pool:
+  name: Azure Pipelines
+  vmImage: ubuntu-20.04
+
+variables:
+  - group: AppSettings
+
+steps:
+- task: qetza.replacetokens.replacetokens-task.replacetokens@3
+  displayName: 'Replace tokens'
+  inputs:
+    targetFiles: '**/settings.txt'
+    tokenPrefix: '__'
+    tokenSuffix: '__'
+
+
+- task: CopyFiles@2
+  displayName: 'Copy Files to: $(build.artifactstagingdirectory)/k8s'
+  inputs:
+    Contents: 'deployk8s.yml'
+    TargetFolder: '$(build.artifactstagingdirectory)/k8s'
+    CleanTargetFolder: true
+  timeoutInMinutes: 2
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact: k8s'
+  inputs:
+    ArtifactName: k8s
+
+- task: Docker@2
+  inputs:
+    containerRegistry: 'Azure Registry'
+    repository: 'RDiProj'
+    command: 'buildAndPush'
+    Dockerfile: '**/Dockerfile'
+    tags: |
+      $(Build.BuildId)
+      latest

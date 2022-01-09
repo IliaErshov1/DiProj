@@ -1,6 +1,6 @@
-connect:192.168.1.78
-portbase:3306
-base:itunes
-login:root
-pass:root
-portweb:8080
+connect:__SConnect__
+portbase:__SPortbase__
+base:__SBase__
+login:__Slogin__
+pass:__SPass__
+portweb:__SPortweb__
