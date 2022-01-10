@@ -157,6 +157,8 @@ func WorkSQL(whattodo string, queryin string) {
 	        fmt.Println("Insert")
 					insert, err :=db.Query(queryin)
 						if err != nil{
+              WorkSQL("Schema", "")
+              WorkSQL("Table", "")
 						panic(err)
 						}
 						defer insert.Close()
@@ -165,6 +167,8 @@ func WorkSQL(whattodo string, queryin string) {
 	        fmt.Println("Delete")
 					delete, err :=db.Query("DELETE FROM `music`")
 						if err != nil{
+              WorkSQL("Schema", "")
+              WorkSQL("Table", "")
 						panic(err)
 						}
 						defer delete.Close()
@@ -173,6 +177,8 @@ func WorkSQL(whattodo string, queryin string) {
 	        fmt.Println("Select")
 					res,  err :=db.Query("Select `CollectionName`, `ReleaseDate` From `music` ORDER BY `ReleaseDate` DESC")
 						if err != nil{
+              WorkSQL("Schema", "")
+              WorkSQL("Table", "")
 						panic(err)
 						}
 
@@ -202,13 +208,12 @@ func WorkSQL(whattodo string, queryin string) {
 				defer Schema.Close()
 
       case "Table":
-        pconnectsh:= Plogin+":"+Ppass+"@tcp("+Pbaseserver+":"+Pportbase+")/"
+        pconnectsh:= Plogin+":"+Ppass+"@tcp("+Pbaseserver+":"+Pportbase+")/"+Pbase
         fmt.Println(pconnectsh)
         db, err :=sql.Open("mysql", pconnectsh)
         if err != nil{
         panic(err)
       }
-
 				  	Schema2, err :=db.Query("CREATE TABLE `itunes`.`music` (`id` INT NOT NULL AUTO_INCREMENT, `Kind` VARCHAR(45) NULL, `CollectionName` VARCHAR(300) NULL, `TrackName` VARCHAR(300) NULL, `CollectionPrice` DOUBLE NULL, `TrackPrice` DOUBLE NULL, `PrimaryGenreName` VARCHAR(300) NULL, `TrackCount` INT NULL, `TrackNumber` INT NULL, `ReleaseDate` DATETIME NULL, PRIMARY KEY (`id`));")
 						if err != nil{
             fmt.Println(err)
