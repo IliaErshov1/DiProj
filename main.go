@@ -47,6 +47,7 @@ r.ParseForm()
 params := r.FormValue("foo")
 switch params {
     case "download":
+       WorkSQL("Delete",  "s")
       workJSON()
  fmt.Println(params)
 
