@@ -85,6 +85,7 @@ http.ListenAndServe(":"+Pportweb, nil)
 func main(){
   FileRead()
   WorkSQL("Schema", "")
+  WorkSQL("Table", "")
   hadleRequest()
 }
 
@@ -199,6 +200,14 @@ func WorkSQL(whattodo string, queryin string) {
 					//panic(err)
 					}
 				defer Schema.Close()
+
+      case "Table":
+        pconnectsh:= Plogin+":"+Ppass+"@tcp("+Pbaseserver+":"+Pportbase+")/"
+        fmt.Println(pconnectsh)
+        db, err :=sql.Open("mysql", pconnectsh)
+        if err != nil{
+        panic(err)
+      }
 
 				  	Schema2, err :=db.Query("CREATE TABLE `itunes`.`music` (`id` INT NOT NULL AUTO_INCREMENT, `Kind` VARCHAR(45) NULL, `CollectionName` VARCHAR(300) NULL, `TrackName` VARCHAR(300) NULL, `CollectionPrice` DOUBLE NULL, `TrackPrice` DOUBLE NULL, `PrimaryGenreName` VARCHAR(300) NULL, `TrackCount` INT NULL, `TrackNumber` INT NULL, `ReleaseDate` DATETIME NULL, PRIMARY KEY (`id`));")
 						if err != nil{
