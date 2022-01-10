@@ -59,9 +59,14 @@ switch params {
 WorkSQL("Select", "tmpl")
   //tmpl.Execute(w, muz)
 
-  case "clean":
+  case "cleanlist":
 fmt.Println(params)
      Bks=BksClean
+
+  case "schema":
+    fmt.Println(params)
+    WorkSQL("Schema", "")
+    WorkSQL("Table", "")
 
  default:
      fmt.Println(params)
@@ -157,8 +162,6 @@ func WorkSQL(whattodo string, queryin string) {
 	        fmt.Println("Insert")
 					insert, err :=db.Query(queryin)
 						if err != nil{
-              WorkSQL("Schema", "")
-              WorkSQL("Table", "")
 						panic(err)
 						}
 						defer insert.Close()
@@ -167,8 +170,6 @@ func WorkSQL(whattodo string, queryin string) {
 	        fmt.Println("Delete")
 					delete, err :=db.Query("DELETE FROM `music`")
 						if err != nil{
-              WorkSQL("Schema", "")
-              WorkSQL("Table", "")
 						panic(err)
 						}
 						defer delete.Close()
@@ -177,8 +178,6 @@ func WorkSQL(whattodo string, queryin string) {
 	        fmt.Println("Select")
 					res,  err :=db.Query("Select `CollectionName`, `ReleaseDate` From `music` ORDER BY `ReleaseDate` DESC")
 						if err != nil{
-              WorkSQL("Schema", "")
-              WorkSQL("Table", "")
 						panic(err)
 						}
 
