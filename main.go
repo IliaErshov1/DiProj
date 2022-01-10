@@ -184,7 +184,8 @@ func WorkSQL(whattodo string, queryin string) {
 
 						for res.Next() {
               bk := new(Music)
-						  err = res.Scan(&bk.CollectionName, &bk.ReleaseDate, &bk.CollectionPrice)
+						  // err = res.Scan(&bk.CollectionName, &bk.ReleaseDate, &bk.CollectionPrice)
+              err = res.Scan(&bk.CollectionName, &bk.ReleaseDate)
               Bks = append(Bks, bk)
 						  if err != nil{
 						  panic(err)
