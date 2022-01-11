@@ -20,7 +20,7 @@ steps:
     scannerMode: 'CLI'
     configMode: 'manual'
     cliProjectKey: 'iliaershov1'
-    cliProjectName: 'DiProj/'
+    cliProjectName: 'IliaErshov1_DiProj'
     cliSources: '.'
     
 - task: SonarCloudAnalyze@1
