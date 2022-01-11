@@ -19,7 +19,7 @@ steps:
     organization: 'IliaErshov1'
     scannerMode: 'CLI'
     configMode: 'manual'
-    cliProjectKey: 'IliaErshov1_DiProj'
+    cliProjectKey: 'iliaershov1'
     cliProjectName: 'DiProj'
     cliSources: '.'
     
