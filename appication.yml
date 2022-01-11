@@ -21,7 +21,7 @@ steps:
     configMode: 'manual'
     cliProjectKey: 'iliaershov1'
     cliProjectName: 'DiProj'
-    cliSources: '.'
+    cliSources: './main'
     
 - task: SonarCloudAnalyze@1
   displayName: 'sonar'
