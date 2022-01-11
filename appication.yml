@@ -16,11 +16,11 @@ steps:
 - task: SonarCloudPrepare@1
   inputs:
     SonarCloud: 'SonarCloud'
-    organization: 'iliaershov1'
+    organization: 'Iliaershov1'
     scannerMode: 'CLI'
     configMode: 'manual'
     cliProjectKey: 'iliaershov1'
-    cliProjectName: 'IliaErshov1_DiProj'
+    cliProjectName: 'IliaErshov1/DiProj'
     cliSources: '.'
     
 - task: SonarCloudAnalyze@1
