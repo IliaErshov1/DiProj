@@ -16,7 +16,7 @@ steps:
 - task: SonarCloudPrepare@1
   inputs:
     SonarCloud: 'SonarCloud'
-    organization: 'IliaErshov1_DiProj'
+    organization: 'IliaErshov1'
     scannerMode: 'CLI'
     configMode: 'manual'
     cliProjectKey: 'IliaErshov1_DiProj'
