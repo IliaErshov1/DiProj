@@ -69,6 +69,16 @@ fmt.Println(params)
     WorkSQL("Schema", "")
     WorkSQL("Table", "")
 
+    case "runcpu":
+      i := 1
+         max := 786750
+         for i < max {
+          gg:= 888888888*888888888-5/99999999999
+             fmt.Println(i)
+             fmt.Println(gg)
+      	 i += 1
+         }
+
  default:
      fmt.Println(params)
   }
