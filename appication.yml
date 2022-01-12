@@ -13,6 +13,18 @@ steps:
     tokenPrefix: '__'
     tokenSuffix: '__'
 
+- task: SonarCloudPrepare@1
+  inputs:
+    SonarCloud: 'SonarCloud'
+    organization: 'iliaershov1'
+    scannerMode: 'CLI'
+    configMode: 'manual'
+    cliProjectKey: 'IliaErshov1_DiProj'
+    cliProjectName: 'IliaErshov1/DiProj'
+    cliSources: '.'
+    
+- task: SonarCloudAnalyze@1
+  displayName: 'sonar'
 
 - task: CopyFiles@2
   displayName: 'Copy Files to: $(build.artifactstagingdirectory)/k8s'
