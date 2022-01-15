@@ -45,13 +45,13 @@ metadata:
     name: app-hpa
 spec:
     scaleTargetRef:
-        apiVersion: apps/v2beta1
-        kind: Deployment
-        name: app-deployment
+      apiVersion: apps/v2beta1
+      kind: Deployment
+      name: app-deployment
     minReplicas: 1
     maxReplicas: 2
     metrics:
-    -tupe: Rescurce
-     resource:
+    - type: Resource
+      resource:
          name: cpu
          targetAverageUtilization: 10
