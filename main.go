@@ -70,14 +70,17 @@ fmt.Println(params)
     WorkSQL("Table", "")
 
     case "runcpu":
+
       i := 1
          max := 786750
          for i < max {
+           Sqrt(564588888888888333338888888888888888777799999999999999)
           gg:= 888888888*888888888-5/99999999999
              fmt.Println(i)
              fmt.Println(gg)
       	 i += 1
          }
+
 
  default:
      fmt.Println(params)
@@ -277,4 +280,22 @@ func FileRead(){
   if err := scanner.Err(); err != nil {
       log.Fatal(err)
   }
+}
+
+
+func Sqrt(x float64) float64 {
+z := 1.0
+check := 0.0
+for i:=0; i <= 999999999999; i++	{
+  z = z - (z*z - x)/(2*z)
+  fmt.Println("Попытка", i, "Квадратный корень =", z)
+  if i != 0 {
+    if check - z < 0.0000000000000000000000001 {
+    fmt.Println("Это значение довольно точное!")
+      break
+    }
+  }
+  check = z
+}
+return z
 }
