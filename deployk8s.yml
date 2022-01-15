@@ -39,15 +39,19 @@ spec:
       port: 8089
       targetPort: 8080
 ---
-apiVersion: autoscaling/v1
+apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
 metadata:
     name: app-hpa
 spec:
     scaleTargetRef:
-        apiVersion: apps/v1
+        apiVersion: apps/v2beta1
         kind: Deployment
         name: app-deployment
     minReplicas: 1
     maxReplicas: 2
-    targetCPUUtilizationPercentage: 10
+    metrics:
+    -tupe: Rescurce
+     resource:
+         name: cpu
+         targetAverageUtilization: 10
