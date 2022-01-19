@@ -8,12 +8,13 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-uWxY/CJNBR+1zjPWmfnSnVxwRheevXITnMqoEIeG1LJrdI0GlVs/9cVSyPYXdcSF" crossorigin="anonymous">
   <style type="text/css">
     TABLE {
-     width: 600px; /* Ширина таблицы */
+     width: 120px; /* Ширина таблицы */
+     table-layout: fixed;
      border-collapse: collapse; /* Убираем двойные линии между ячейками */
     }
     TD, TH {
     word-wrap:break-word;
-     width:300px;
+     width:120px;
      padding: 3px; /* Поля вокруг содержимого таблицы */
      border: 1px solid black; /* Параметры рамки */
     }
@@ -43,6 +44,13 @@
     <tr border="1">
       <td border="1">Collection Name</td>
       <td border="1">Release Date</td>
+      <td border="1">TrackName</td>
+      <td border="1">CollectionPrice</td>
+      <td border="1">TrackPrice</td>
+      <td border="1">PrimaryGenreName</td>
+      <td border="1">TrackCount</td>
+      <td border="1">TrackNumber</td>
+
       </tr>
     </table>
 
@@ -51,7 +59,13 @@
                  <tr border="1">
                 <td border="1">{{$value.CollectionName}}</td>
                 <td border="1">{{$value.ReleaseDate}}</td>
-                <!-- <td border="1">{{$value.CollectionPrice}}</td> -->
+                <td border="1">{{$value.TrackName}}</td>
+                <td border="1">{{$value.CollectionPrice}}</td>
+                <td border="1">{{$value.TrackPrice}}</td>
+                <td border="1">{{$value.PrimaryGenreName}}</td>
+                <td border="1">{{$value.TrackCount}}</td>
+                <td border="1">{{$value.TrackNumber}}</td>
+
               </tr>
             </table>
               {{end}}

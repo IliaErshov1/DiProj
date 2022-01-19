@@ -190,15 +190,16 @@ func WorkSQL(whattodo string, queryin string) {
 
 	    case "Select":
 	        fmt.Println("Select")
-					res,  err :=db.Query("Select `CollectionName`, `ReleaseDate` From `music` ORDER BY `ReleaseDate` DESC")
+				//	res,  err :=db.Query("Select `CollectionName`, `ReleaseDate` From `music` ORDER BY `ReleaseDate` ASC")
+          res,  err :=db.Query("Select `CollectionName`, `ReleaseDate`, `CollectionPrice`, `TrackName`, `TrackPrice`, `PrimaryGenreName`, `TrackCount`, `TrackNumber` From `music` ORDER BY `ReleaseDate` ASC")
 						if err != nil{
 						panic(err)
 						}
 
 						for res.Next() {
               bk := new(Music)
-						  // err = res.Scan(&bk.CollectionName, &bk.ReleaseDate, &bk.CollectionPrice)
-              err = res.Scan(&bk.CollectionName, &bk.ReleaseDate)
+						   err = res.Scan(&bk.CollectionName, &bk.ReleaseDate, &bk.CollectionPrice, &bk.TrackName, &bk.TrackPrice, &bk.PrimaryGenreName, &bk.TrackCount, &bk.TrackNumber)
+            //  err = res.Scan(&bk.CollectionName, &bk.ReleaseDate)
               Bks = append(Bks, bk)
 						  if err != nil{
 						  panic(err)
