@@ -58,7 +58,6 @@ switch params {
       case "select":
    fmt.Println(params)
 WorkSQL("Select", "tmpl")
-  //tmpl.Execute(w, muz)
 
   case "cleanlist":
 fmt.Println(params)
@@ -92,8 +91,6 @@ tmpl.Execute(w, Bks)
 
 func hadleRequest(){
 http.HandleFunc("/", home_page)
-//http.HandleFunc("/contacts/", contacts_page)
-//http.HandleFunc("/get-time", func(w http.ResponseWriter, r *http.Request))
   fmt.Println("Connect Done")
 
 
@@ -129,7 +126,6 @@ func workJSON() {
 
     body, err := ioutil.ReadAll(res.Body)
 
-  //  fmt.Println(body)
 
     if err != nil {
         log.Fatal(err)
@@ -190,7 +186,6 @@ func WorkSQL(whattodo string, queryin string) {
 
 	    case "Select":
 	        fmt.Println("Select")
-				//	res,  err :=db.Query("Select `CollectionName`, `ReleaseDate` From `music` ORDER BY `ReleaseDate` ASC")
           res,  err :=db.Query("Select `CollectionName`, `ReleaseDate`, `CollectionPrice`, `TrackName`, `TrackPrice`, `PrimaryGenreName`, `TrackCount`, `TrackNumber` From `music` ORDER BY `ReleaseDate` ASC")
 						if err != nil{
 						panic(err)
@@ -199,7 +194,6 @@ func WorkSQL(whattodo string, queryin string) {
 						for res.Next() {
               bk := new(Music)
 						   err = res.Scan(&bk.CollectionName, &bk.ReleaseDate, &bk.CollectionPrice, &bk.TrackName, &bk.TrackPrice, &bk.PrimaryGenreName, &bk.TrackCount, &bk.TrackNumber)
-            //  err = res.Scan(&bk.CollectionName, &bk.ReleaseDate)
               Bks = append(Bks, bk)
 						  if err != nil{
 						  panic(err)
@@ -218,7 +212,6 @@ func WorkSQL(whattodo string, queryin string) {
 					if err != nil{
             fmt.Println(err)
             return
-					//panic(err)
 					}
 				defer Schema.Close()
 
@@ -233,7 +226,6 @@ func WorkSQL(whattodo string, queryin string) {
 						if err != nil{
             fmt.Println(err)
             return
-            //panic(err)
 						}
 						defer Schema2.Close()
 
